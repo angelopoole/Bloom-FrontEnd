@@ -25,8 +25,8 @@ sideBarButton.addEventListener("click", () => {
     sidebarOpen = !sidebarOpen
     if (sidebarOpen) {
         sideBarButton.innerText = "Close Sidebar"
-        sideBar.style.width = "250px";
-        mainContainer.style.marginLeft = "250px";
+        sideBar.style.width = "200px";
+        mainContainer.style.marginLeft = "200px";
     } else {
         sideBarButton.innerText = "Open Sidebar"
         sideBar.style.width = "0px";
@@ -52,9 +52,32 @@ sideBarButton.addEventListener("click", () => {
             </div> `
         flowerList.append(flowerSpan)
 
-        // flowerArray.push(flower)
+        flowerSpan.addEventListener("click", () => {
+            let flowerMain = document.querySelector("#flower-main")
+            flowerMain.innerHTML = `
+            <div class="main-image" style="background-image: url(${flower.img_url})"> </div>
+                <div class="content">
+                    <div class="name"><h2>${flower.name}</h2></div>
+                    <div class="meaning"><p>Meaning: ${flower.meaning}<p></div>
+                    <div class="sound"><p>Sound: ${flower.sound}</p></div>
+                    <button id="add-to-bouquet">Add to Bouquet</button>
+                    <button id="close">Close</button>
+                </div> `
 
+                const addButton = document.querySelector("#add-to-bouquet")
+                const closeButton = document.querySelector("#close")
+        
+                addButton.addEventListener("click", () => {
+                    console.log('clicked me')
+                })
+        
+                closeButton.addEventListener("click", () => {
+                    console.log('clicked me too')
+                })
+        })
     }
+
+ 
 
     function renderAllFlowers(flowers) {
         flowers.forEach(renderOneFlower)

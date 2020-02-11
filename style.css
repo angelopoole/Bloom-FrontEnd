@@ -10,8 +10,8 @@
     overflow-x: hidden; /* Disable horizontal scroll */
     background-color: rgba(255, 255, 255, 0.664); /* Black*/
     padding-top: 10px; /* Place content 20px from the top */
-    padding-left: 10px;
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+   
   }
 
   /* #sidebar a:hover {
@@ -22,7 +22,17 @@
       color: rgb(17, 17, 17);
       font-family: cursive;
       font-size: larger;
-      padding-left: 20px; 
+      text-align: center; 
+  }
+
+
+  .card {
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding-bottom: 10px;
+    
   }
 
   body {
@@ -30,21 +40,36 @@
     background-image: url("./images/flower-background-3.JPG");
     background-size: cover;
     transition: margin-left .5s; /* If you want a transition effect */
-    padding: 20px;
+    padding: 30px;
+    display: grid;
+    grid-template-rows: 50% 50%;
   }
 
   .side-image {
     height: 90px;
     width: 90px;
     background-position: center;
-    background-size: cover; 
+    background-size: contain; 
   }
 
   .main-image {
     height: 200px;
     width: 200px;
     background-position: center;
-    background-size: cover; 
+    background-size: contain; 
+  }
+
+  #flower-main {
+    height: 75vh;
+    text-align: left;
+    display: flex;
+    flex-flow: wrap;
+    margin: auto;
+    width: 50%;
+  }
+
+  .content {
+    padding: 15px;
   }
 
  
