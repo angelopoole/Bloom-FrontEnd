@@ -62,15 +62,28 @@ sideBarButton.addEventListener("click", () => {
 
 
 // exp 
+// I need the flower and the bouque. then i need to create a FlowerBouquet with those two as soon as a bouquet is made 
+
 flowerObj = {}
-function saveBoquets(flowersObj) {
-    data={
+
+function saveBoquet(flowersObj) {
+    const data={
         flower: flowersObj
     };
-    config={
-
+    const config={
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
     };
 
-    fetch()
-    
+    fetch(FETCH_ALL_URL, config)
+    .then(res => res.json())
+    .then(data => createFlowerBouquet(data))
+        // here we make a post for the FlowerBouquet object to create the relationship
+}
+
+function createFlowerBouquet(data){
+    console.log("works!")
 }
