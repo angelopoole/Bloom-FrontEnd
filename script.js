@@ -12,12 +12,20 @@ const mainContainer = document.getElementById('main');
 
 
 /*----------------EVENT-HANDLERS-------------*/
+let sidebarOpen = false
 
-sideBarButton.onclick = () => {
-    sideBar.style.width = "250px";
-    mainContainer.style.marginLeft = "250px";
-    console.log("click'd")
-}
+sideBarButton.addEventListener("click", () => {
+    sidebarOpen = !sidebarOpen
+    if (sidebarOpen) {
+        sideBarButton.innerText = "Close Sidebar"
+        sideBar.style.width = "250px";
+        mainContainer.style.marginLeft = "250px";
+    } else {
+        sideBarButton.innerText = "Open Sidebar"
+        sideBar.style.width = "0px";
+        mainContainer.style.marginLeft = "0px";
+    }   
+})
 
 /*----------------RENDERERS------------------*/
 const flowerList = document.querySelector("#flower-list")
