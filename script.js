@@ -41,15 +41,23 @@ sideBarButton.addEventListener("click", () => {
         flowerSpan.dataset.id = flower.id
     
         flowerSpan.innerHTML = `
-            <div class="image" style="background-image: url(${flower.img_url})">
-               
+            <div class="side-image" style="background-image: url(${flower.img_url})">  
             </div>
             <div class="content">
                 <div class="name">${flower.name}</div>
-                <div class="meaning"><p>Meaning: ${flower.meaning}<p></div>
-                <div class="sound"><p>Sound: ${flower.sound}</p></div>
             </div> `
         flowerList.append(flowerSpan)
+
+        flowerSpan.addEventListener("click", () => {
+            let flowerMain = document.querySelector("#flower-main")
+            flowerMain.innerHTML = `
+            <div class="main-image" style="background-image: url(${flower.img_url})"> </div>
+                <div class="content">
+                    <div class="name"><h2>${flower.name}</h2></div>
+                    <div class="meaning"><p>Meaning: ${flower.meaning}<p></div>
+                    <div class="sound"><p>Sound: ${flower.sound}</p></div>
+                </div> `
+        })
     }
 
     function renderAllFlowers(flowers) {
