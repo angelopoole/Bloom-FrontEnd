@@ -33,12 +33,18 @@
     padding: 20px;
   }
 
-  .image {
-    height: 100px;
-    width: 100px;
+  .side-image {
+    height: 90px;
+    width: 90px;
     background-position: center;
     background-size: cover; 
+  }
 
+  .main-image {
+    height: 200px;
+    width: 200px;
+    background-position: center;
+    background-size: cover; 
   }
 
  
