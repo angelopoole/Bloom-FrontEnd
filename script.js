@@ -31,20 +31,20 @@ sideBarButton.addEventListener("click", () => {
 const flowerList = document.querySelector("#flower-list")
 
     function renderOneFlower(flower) {
-        const outerLi = document.createElement('li')
-        outerLi.className = "card"
-        outerLi.dataset.id = flower.id
+        const flowerSpan = document.createElement('span')
+        flowerSpan.className = "card"
+        flowerSpan.dataset.id = flower.id
     
-        outerLi.innerHTML = `
-        <div class="image">
-            <img class="image" src="${flower.img_url}" alt="${flower.name}">
-        </div>
-        <div class="content">
-            <div class="name">${flower.name}</div>
-            <div class="meaning"><p>Meaning: ${flower.meaning}<p></div>
-            <div class="sound"><p>Sound: ${flower.sound}</p></div>
-        </div> `
-        flowerList.append(outerLi)
+        flowerSpan.innerHTML = `
+            <div class="image" style="background-image: url(${flower.img_url})">
+               
+            </div>
+            <div class="content">
+                <div class="name">${flower.name}</div>
+                <div class="meaning"><p>Meaning: ${flower.meaning}<p></div>
+                <div class="sound"><p>Sound: ${flower.sound}</p></div>
+            </div> `
+        flowerList.append(flowerSpan)
     }
 
     function renderAllFlowers(flowers) {

@@ -10,12 +10,13 @@
     overflow-x: hidden; /* Disable horizontal scroll */
     background-color: rgba(255, 255, 255, 0.664); /* Black*/
     padding-top: 10px; /* Place content 20px from the top */
+    padding-left: 10px;
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
   }
 
-  #sidebar a:hover {
+  /* #sidebar a:hover {
     left: 0; /* On mouse-over, make the elements appear as they should */
-  }
+  /* } */ 
   
   .sidebar-text {
       color: rgb(17, 17, 17);
@@ -33,11 +34,11 @@
   }
 
   .image {
-    height: 60px;
-    width: 60px;
+    height: 100px;
+    width: 100px;
+    background-position: center;
+    background-size: cover; 
 
   }
 
-  li {
-    list-style-type: none;
-  }
+ 
