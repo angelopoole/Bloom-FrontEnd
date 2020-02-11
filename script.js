@@ -1,16 +1,22 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     
-/*----------------DOM-ELEMENTS---------------*/
-
-const sideBar = document.getElementById('sidebar');
-const sideBarButton = document.getElementById('open-sidebar');
-const mainContainer = document.getElementById('main');
-
-
-
-/*----------------EVENT-LISTENERS------------*/
-
-
+    /*----------------DOM-ELEMENTS---------------*/
+    
+    const sideBar = document.getElementById('sidebar');
+    const sideBarButton = document.getElementById('open-sidebar');
+    const mainContainer = document.getElementById('main');
+    const flowerList = document.querySelector("#flower-list")
+    const FETCH_ALL_URL = "http://localhost:3000/flowers"
+    
+    
+    /*----------------EVENT-LISTENERS------------*/
+    
+    fetch(FETCH_ALL_URL)
+        .then(r => r.json())
+        .then(data => {
+            renderAllFlowers(data)
+        })
+    
 /*----------------EVENT-HANDLERS-------------*/
 
 sideBarButton.onclick = () => {
@@ -20,7 +26,6 @@ sideBarButton.onclick = () => {
 }
 
 /*----------------RENDERERS------------------*/
-const flowerList = document.querySelector("#flower-list")
 
     function renderOneFlower(flower) {
         const outerLi = document.createElement('li')
@@ -43,11 +48,21 @@ const flowerList = document.querySelector("#flower-list")
         flowers.forEach(renderOneFlower)
     }
 
-    fetch("http://localhost:3000/flowers")
-        .then(r => r.json())
-        .then(data => {
-            renderAllFlowers(data)
-        })
 
 
 });
+
+
+// exp 
+flowerObj = {}
+function saveBoquets(flowersObj) {
+    data={
+        flower: flowersObj
+    };
+    config={
+
+    };
+
+    fetch()
+    
+}
