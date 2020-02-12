@@ -8,6 +8,8 @@ const mainContainer = document.getElementById('main');
 const saveButton = document.getElementById('create-bouquet');
 const saveForm = document.getElementById('save-bouquet-form');
 const flowerList = document.querySelector("#flower-list")
+const showBouquetButton = document.querySelector("#show-All-Bouquets-Button")
+const bouqeutModal = document.querySelector("#bouqeutModal")
 
 let currentBouquet = [];
 let sidebarOpen = false
@@ -82,7 +84,7 @@ let sidebarOpen = false
             const closeButton = document.querySelector("#close")
 
             addButton.addEventListener("click", () => {
-                const bouquetList = document.querySelector("#bouquet-list")
+                const selectedFlowers = document.querySelector("#selected-Flowers")
                 const bouquetItem = document.createElement("span")
                 bouquetItem.className = "bouquet-item"
                 bouquetItem.dataset.id = flower.id
@@ -92,7 +94,7 @@ let sidebarOpen = false
                     console.log(currentBouquet)
                     bouquetItem.innerHTML = `
                             <img class="bouquet-item-image" src="./images/${flower.img_url}.png" />`
-                    bouquetList.append(bouquetItem)       
+                    selectedFlowers.append(bouquetItem)       
                 }    
             })
             
@@ -138,4 +140,54 @@ function persistBouquet (name, description, flowerIdStr) {
         .then(data => {
             renderAllFlowers(data)
         })
-    });
+
+
+        // *************************************************
+        // show bouqeut modal 
+        showBouquetButton.addEventListener('click', e => {
+            document.getElementById('bouqeutModal').style.display = "block";
+            
+        })
+        // close bouquet modal 
+        bouqeutModal.addEventListener("click", e => {
+            console.log("clicked!", e.target.dataset.action)
+            if (e.target.dataset.action === "close") {
+                document.getElementById('bouqeutModal').style.display = "none";
+            }
+          })
+        
+        
+        function getAllbouquets(){
+        fetch("http://localhost:3000/bouquets")
+        .then(res => res.json())
+        .then(bouquetData => renderAllBouquets(bouquetData) )
+        }
+
+        function renderOneBouquet(bouquet){
+            const bouquetouterDiv = document.querySelector("#bouquet-list")
+            const name = bouquet.name;
+            const description = bouquet.description;
+
+            
+            bouquetinnerDiv = document.createElement('div')
+
+            bouquetinnerDiv.innerHTML = `
+            <p>${name}</p>
+            `
+            bouquetouterDiv.append(bouquetinnerDiv)
+
+            console.log("This is the name:", name,"this is the description", description)
+            
+            
+        }
+
+        function renderAllBouquets(bouquetData){
+            bouquetData.forEach(renderOneBouquet)
+        }
+        
+        
+        getAllbouquets()
+
+
+
+});
