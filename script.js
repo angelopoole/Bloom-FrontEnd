@@ -133,18 +133,9 @@ function persistBouquet (name, description, flowerIdStr) {
     
 }
 
-<<<<<<< HEAD
-fetch("http://localhost:3000/flowers")
-    .then(r => r.json())
-    .then(data => {
-        renderAllFlowers(data)
-    })
-});
-=======
     fetch("http://localhost:3000/flowers")
         .then(r => r.json())
         .then(data => {
             renderAllFlowers(data)
         })
     });
->>>>>>> 7868aefb18d749516df7e2322bee2fb036f79f71
