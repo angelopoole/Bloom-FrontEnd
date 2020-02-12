@@ -6,8 +6,11 @@ const sideBar = document.getElementById('sidebar');
 const sideBarButton = document.getElementById('open-sidebar');
 const mainContainer = document.getElementById('main');
 const saveButton = document.getElementById('create-bouquet');
+const goBackButton = document.getElementById('go-back')
 const saveForm = document.getElementById('save-bouquet-form');
+const formContent = document.getElementById('form-content')
 const flowerList = document.querySelector("#flower-list")
+const popUp = document.getElementById('modal')
 
 let currentBouquet = [];
 let sidebarOpen = false
@@ -25,14 +28,21 @@ let sidebarOpen = false
 
 
     saveButton.addEventListener("click", e => {
-        document.getElementById('modal').style.display = "block";
+        popUp.style.display = "block";
         saveForm.onsubmit = (e) => {
             e.preventDefault();
             const name = saveForm.name.value;
             const description = saveForm.description.value
             const flowerIdStr = currentBouquet.toString();
             persistBouquet(name, description, flowerIdStr);
+            formContent.innerHTML = "🌸 Bouquet Saved! 🌸"
+            setTimeout(function(){ popUp.style.display = "none"; }, 3000);
+
         }
+    })
+
+    goBackButton.addEventListener("click", e => {
+        popUp.style.display = "none";
     })
 
 /*----------------EVENT-HANDLERS-------------*/
@@ -82,7 +92,7 @@ let sidebarOpen = false
             const closeButton = document.querySelector("#close")
 
             addButton.addEventListener("click", () => {
-                const bouquetList = document.querySelector("#bouquet-list")
+                const selectedFlowers = document.querySelector("#selected-flowers")
                 const bouquetItem = document.createElement("span")
                 bouquetItem.className = "bouquet-item"
                 bouquetItem.dataset.id = flower.id
@@ -92,7 +102,7 @@ let sidebarOpen = false
                     console.log(currentBouquet)
                     bouquetItem.innerHTML = `
                             <img class="bouquet-item-image" src="./images/${flower.img_url}.png" />`
-                    bouquetList.append(bouquetItem)       
+                    selectedFlowers.append(bouquetItem)       
                 }    
             })
             

@@ -44,6 +44,7 @@
     padding: 30px;
     display: grid;
     grid-template-rows: 50% 50%;
+    
     /* overflow: hidden;
     overflow-y:auto; */
     /* min-height: 100vh; */
@@ -86,7 +87,7 @@
     padding: 10px;
   }
 
-  #bouquet-list {
+  #selected-flowers {
     display: flex;
     flex-flow: wrap;
     justify-content: center;
@@ -100,20 +101,23 @@
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.75);
+  
   }
   
   #save-bouquet-form {
     background-color: rgb(255, 237, 194);
     /* margin-top: 20vh; */
     width: 400px;
-    margin: 20vh;
+    margin: 20vh auto 0;
     padding: 40px;
     border-radius: 20px;
-    justify-content: center;
   }
 
-  #create-bouquet {
-    justify-content: center;
+  #form-content {
+    text-align: center;
+  }
+  #bouquet-buttons {
+    text-align: center;
   }
 
 
