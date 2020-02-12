@@ -49,21 +49,17 @@
     /* min-height: 100vh; */
   }
 
-  /* * {
-    grid-template-rows: 40% 40% 20%;
-    grid-template-columns: 33% 33% 33%;
-  } */
 
   .side-image {
     height: 90px;
-    width: 90px;
+    /* width: 90px; */
     background-position: center;
     background-size: contain; 
   }
 
   .main-image {
     height: 200px;
-    width: 200px;
+    /* width: 200px; */
     background-position: center;
     background-size: contain; 
   }

@@ -24,94 +24,91 @@ let sidebarOpen = false
 /*----------------EVENT-LISTENERS------------*/
 
 
-saveButton.addEventListener("click", e => {
-    document.getElementById('modal').style.display = "block";
-    saveForm.onsubmit = (e) => {
-        e.preventDefault();
-        const name = saveForm.name.value;
-        const description = saveForm.description.value
-        const flowerIdStr = currentBouquet.toString();
-        persistBouquet(name, description, flowerIdStr);
-    }
-})
+    saveButton.addEventListener("click", e => {
+        document.getElementById('modal').style.display = "block";
+        saveForm.onsubmit = (e) => {
+            e.preventDefault();
+            const name = saveForm.name.value;
+            const description = saveForm.description.value
+            const flowerIdStr = currentBouquet.toString();
+            persistBouquet(name, description, flowerIdStr);
+        }
+    })
 
 /*----------------EVENT-HANDLERS-------------*/
 
-sideBarButton.addEventListener("click", () => {
-    sidebarOpen = !sidebarOpen
-    if (sidebarOpen) {
-        sideBarButton.innerText = "Close Sidebar"
-        sideBar.style.width = "200px";
-        mainContainer.style.marginLeft = "200px";
-    } else {
-        sideBarButton.innerText = "Open Sidebar"
-        sideBar.style.width = "0px";
-        mainContainer.style.marginLeft = "0px";
-    }   
-})
+    sideBarButton.addEventListener("click", () => {
+        sidebarOpen = !sidebarOpen
+        if (sidebarOpen) {
+            sideBarButton.innerText = "Close Sidebar"
+            sideBar.style.width = "200px";
+            mainContainer.style.marginLeft = "200px";
+        } else {
+            sideBarButton.innerText = "Open Sidebar"
+            sideBar.style.width = "0px";
+            mainContainer.style.marginLeft = "0px";
+        }   
+    })
 
 /*----------------RENDERERS------------------*/
 
-function renderOneFlower(flower) {
-    const flowerSpan = document.createElement('span')
-    flowerSpan.className = "card"
-    flowerSpan.dataset.id = flower.id
+    function renderOneFlower(flower) {
+        const flowerSpan = document.createElement('span')
+        flowerSpan.className = "card"
+        flowerSpan.dataset.id = flower.id
+    
+        flowerSpan.innerHTML = `
+            <img class="side-image" src="./images/${flower.img_url}.png" />
+            <div class="content">
+                <div class="name">${flower.name}</div>
+            </div> `
+        flowerList.append(flowerSpan)
 
-    flowerSpan.innerHTML = `
-        <div class="side-image" style="background-image: url(${flower.img_url})">  
-        </div>
-        <div class="content">
-            <div class="name">${flower.name}</div>
-        </div> `
-    flowerList.append(flowerSpan)
+        flowerSpan.addEventListener("click", () => {
+            let flowerMain = document.querySelector("#flower-main")
+            flowerMain.style.display = "flex"
 
-    flowerSpan.addEventListener("click", () => {
-        let flowerMain = document.querySelector("#flower-main")
-        flowerMain.style.display = "flex"
+            flowerMain.innerHTML = `
+            <img class="main-image" src="./images/${flower.img_url}.png" />
+                    <div class="content">
+                        <div class="name"><h2>${flower.name}</h2></div>
+                        <div class="meaning"><p>Meaning: ${flower.meaning}<p></div>
+                        <div class="sound"><p>Sound: ${flower.sound}</p></div>
+                        <button id="add-to-bouquet">Add to Bouquet</button>
+                        <button id="close">Close</button>
+                    </div> `
 
-        flowerMain.innerHTML = `
-            <div class="main-image" style="background-image: url(${flower.img_url})"> </div>
-                <div class="content">
-                    <div class="name"><h2>${flower.name}</h2></div>
-                    <div class="meaning"><p>Meaning: ${flower.meaning}<p></div>
-                    <div class="sound"><p>Sound: ${flower.sound}</p></div>
-                    <button id="add-to-bouquet">Add to Bouquet</button>
-                    <button id="close">Close</button>
-                </div> `
+            const addButton = document.querySelector("#add-to-bouquet")
+            const closeButton = document.querySelector("#close")
 
-        const addButton = document.querySelector("#add-to-bouquet")
-        const closeButton = document.querySelector("#close")
+            addButton.addEventListener("click", () => {
+                const bouquetList = document.querySelector("#bouquet-list")
+                const bouquetItem = document.createElement("span")
+                bouquetItem.className = "bouquet-item"
+                bouquetItem.dataset.id = flower.id
 
-        addButton.addEventListener("click", () => {
-            const bouquetList = document.querySelector("#bouquet-list")
-            const bouquetItem = document.createElement("span")
-            bouquetItem.className = "bouquet-item"
-            bouquetItem.dataset.id = flower.id
-
-            if (!currentBouquet.includes(bouquetItem.dataset.id)) {
-                currentBouquet.push(bouquetItem.dataset.id)
-                console.log(currentBouquet)
-                bouquetItem.innerHTML = `
-                        <div class="bouquet-item-image" style="background-image: url(${flower.img_url})"></div>`
-                bouquetList.append(bouquetItem)       
-            }
+                if (!currentBouquet.includes(bouquetItem.dataset.id)) {
+                    currentBouquet.push(bouquetItem.dataset.id)
+                    console.log(currentBouquet)
+                    bouquetItem.innerHTML = `
+                            <img class="bouquet-item-image" src="./images/${flower.img_url}.png" />`
+                    bouquetList.append(bouquetItem)       
+                }    
+            })
             
+            closeButton.addEventListener("click", () => {
+                // let flowerMain = document.querySelector("#flower-main")
+                flowerMain.style.display = "none"
+            })    
 
-        })
-        
-        closeButton.addEventListener("click", () => {
-            // let flowerMain = document.querySelector("#flower-main")
-            flowerMain.style.display = "none"
-        })
-        
-
-        })
-}
+        })    
+    
+    }
     
     
-function renderAllFlowers(flowers) {
-    flowers.forEach(renderOneFlower)
-}
+    function renderAllFlowers(flowers) {
+        flowers.forEach(renderOneFlower)
+    }
     
 /*----------------RENDERERS------------------*/
 
@@ -136,9 +133,18 @@ function persistBouquet (name, description, flowerIdStr) {
     
 }
 
+<<<<<<< HEAD
 fetch("http://localhost:3000/flowers")
     .then(r => r.json())
     .then(data => {
         renderAllFlowers(data)
     })
 });
+=======
+    fetch("http://localhost:3000/flowers")
+        .then(r => r.json())
+        .then(data => {
+            renderAllFlowers(data)
+        })
+    });
+>>>>>>> 7868aefb18d749516df7e2322bee2fb036f79f71
