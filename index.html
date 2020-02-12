@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>🌸Bloom!🌸 </title>
+    <title>Bloom!🌸 </title>
+    <link rel = "icon" type = "image/png"   href= "images/bloomblossom.png">
 </head>
 <body>
 
@@ -25,7 +26,22 @@
     <div id="bouquet-list">
         <!-- flowers chosen for bouquet here -->
     </div>
+
+    <div>
+        <button id="create-bouquet"> Save bouquet </button>
+    </div>
 </div>
+
+    <div id="modal" style="display: none;" data-action="close">
+        <form id="save-bouquet-form">
+            <h1>Save Bouquet</h1>
+            <label for="name">Name</label>
+            <input type="text" name="name">
+            <label for="description">Description</label>
+            <textarea name="description" rows="2"></textarea>
+            <input type="submit" value="Create Bake">
+        </form>
+    </div>
     
 </body>
 </html>
