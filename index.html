@@ -25,7 +25,22 @@
     <div id="bouquet-list">
         <!-- flowers chosen for bouquet here -->
     </div>
+
+    <div>
+        <button id="create-bouquet"> Save bouquet </button>
+    </div>
 </div>
+
+    <div id="modal" style="display: none;" data-action="close">
+        <form id="save-bouquet-form">
+            <h1>Save Bouquet</h1>
+            <label for="name">Name</label>
+            <input type="text" name="name">
+            <label for="description">Description</label>
+            <textarea name="description" rows="2"></textarea>
+            <input type="submit" value="Create Bake">
+        </form>
+    </div>
     
 </body>
 </html>

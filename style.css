@@ -38,7 +38,7 @@
 
   body {
     background-color: cornsilk;
-    background-image: url("./images/flower-background-3.JPG");
+    /* background-image: url("./images/flower-background-3.JPG"); */
     background-size: cover;
     transition: margin-left .5s; /* If you want a transition effect */
     padding: 30px;
@@ -105,5 +105,23 @@
     /* padding: 10px; */
     /* margin: auto; */
   }
+
+  #modal {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+  }
+  
+  #save-bouquet-form {
+    background-color: rgb(255, 237, 194);
+    margin-top: 20vh;
+    width: 600px;
+    margin: 20vh auto 0;
+  }
+
 
  
