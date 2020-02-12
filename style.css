@@ -52,14 +52,12 @@
 
   .side-image {
     height: 90px;
-    /* width: 90px; */
     background-position: center;
     background-size: contain; 
   }
 
   .main-image {
     height: 200px;
-    /* width: 200px; */
     background-position: center;
     background-size: contain; 
   }
@@ -67,7 +65,6 @@
   #flower-main {
     height: 75vh;
     text-align: left;
-    /* text-overflow:  */
     display: flex;
     flex-flow: wrap;
     margin: auto;
@@ -81,13 +78,8 @@
 
   .bouquet-item-image {
     height: 90px;
-    width: 90px;
     background-position: center;
     background-size: contain; 
-    /* display: flex;
-    flex-flow: wrap;*/
-    /* padding: 10px; */
-    /* margin: auto; */
   }
 
   .bouquet-item {
@@ -98,8 +90,6 @@
     display: flex;
     flex-flow: wrap;
     justify-content: center;
-    /* padding: 10px; */
-    /* margin: auto; */
   }
 
   #modal {
@@ -114,9 +104,16 @@
   
   #save-bouquet-form {
     background-color: rgb(255, 237, 194);
-    margin-top: 20vh;
-    width: 600px;
-    margin: 20vh auto 0;
+    /* margin-top: 20vh; */
+    width: 400px;
+    margin: 20vh;
+    padding: 40px;
+    border-radius: 20px;
+    justify-content: center;
+  }
+
+  #create-bouquet {
+    justify-content: center;
   }
 
 
