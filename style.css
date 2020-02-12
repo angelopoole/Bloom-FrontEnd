@@ -56,14 +56,14 @@
 
   .side-image {
     height: 90px;
-    width: 90px;
+    /* width: 90px; */
     background-position: center;
     background-size: contain; 
   }
 
   .main-image {
     height: 200px;
-    width: 200px;
+    /* width: 200px; */
     background-position: center;
     background-size: contain; 
   }

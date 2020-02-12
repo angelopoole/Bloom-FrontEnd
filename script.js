@@ -46,8 +46,7 @@ const mainContainer = document.getElementById('main');
         flowerSpan.dataset.id = flower.id
     
         flowerSpan.innerHTML = `
-            <div class="side-image" style="background-image: url(${flower.img_url})">  
-            </div>
+            <img class="side-image" src="./images/${flower.img_url}.png" />
             <div class="content">
                 <div class="name">${flower.name}</div>
             </div> `
@@ -58,7 +57,7 @@ const mainContainer = document.getElementById('main');
             flowerMain.style.display = "flex"
 
             flowerMain.innerHTML = `
-                <div class="main-image" style="background-image: url(${flower.img_url})"> </div>
+            <img class="main-image" src="./images/${flower.img_url}.png" />
                     <div class="content">
                         <div class="name"><h2>${flower.name}</h2></div>
                         <div class="meaning"><p>Meaning: ${flower.meaning}<p></div>
@@ -80,7 +79,7 @@ const mainContainer = document.getElementById('main');
                     bouquetArray.push(bouquetItem.dataset.id)
                     console.log(bouquetArray)
                     bouquetItem.innerHTML = `
-                            <div class="bouquet-item-image" style="background-image: url(${flower.img_url})"></div>`
+                            <img class="bouquet-item-image" src="./images/${flower.img_url}.png" />`
                     bouquetList.append(bouquetItem)       
                 }
                 
