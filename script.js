@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    
+  
+    let bouquetArray = []
 /*----------------DOM-ELEMENTS---------------*/
 
 const sideBar = document.getElementById('sidebar');
@@ -21,23 +22,23 @@ const mainContainer = document.getElementById('main');
 // })
 
 /*----------------EVENT-HANDLERS-------------*/
-let sidebarOpen = false
+    let sidebarOpen = false
 
-sideBarButton.addEventListener("click", () => {
-    sidebarOpen = !sidebarOpen
-    if (sidebarOpen) {
-        sideBarButton.innerText = "Close Sidebar"
-        sideBar.style.width = "200px";
-        mainContainer.style.marginLeft = "200px";
-    } else {
-        sideBarButton.innerText = "Open Sidebar"
-        sideBar.style.width = "0px";
-        mainContainer.style.marginLeft = "0px";
-    }   
-})
+    sideBarButton.addEventListener("click", () => {
+        sidebarOpen = !sidebarOpen
+        if (sidebarOpen) {
+            sideBarButton.innerText = "Close Sidebar"
+            sideBar.style.width = "200px";
+            mainContainer.style.marginLeft = "200px";
+        } else {
+            sideBarButton.innerText = "Open Sidebar"
+            sideBar.style.width = "0px";
+            mainContainer.style.marginLeft = "0px";
+        }   
+    })
 
 /*----------------RENDERERS------------------*/
-const flowerList = document.querySelector("#flower-list")
+    const flowerList = document.querySelector("#flower-list")
 
     function renderOneFlower(flower) {
         const flowerSpan = document.createElement('span')
@@ -70,15 +71,27 @@ const flowerList = document.querySelector("#flower-list")
             const closeButton = document.querySelector("#close")
 
             addButton.addEventListener("click", () => {
-                console.log('clicked me')
+                const bouquetList = document.querySelector("#bouquet-list")
+                const bouquetItem = document.createElement("span")
+                bouquetItem.className = "bouquet-item"
+                bouquetItem.dataset.id = flower.id
+
+                if (!bouquetArray.includes(bouquetItem.dataset.id)) {
+                    bouquetArray.push(bouquetItem.dataset.id)
+                    console.log(bouquetArray)
+                    bouquetItem.innerHTML = `
+                            <div class="bouquet-item-image" style="background-image: url(${flower.img_url})"></div>`
+                    bouquetList.append(bouquetItem)       
+                }
+                
+
             })
-            console.log("click!!!!")
+            
             closeButton.addEventListener("click", () => {
-                console.log ('clicked me too')
                 // let flowerMain = document.querySelector("#flower-main")
                 flowerMain.style.display = "none"
             })
-            console.log("click!!!! but after close button?")
+            
 
             })
     }
