@@ -75,13 +75,35 @@
     display: flex;
     flex-flow: wrap;
     margin: auto;
-    width: 50%;
+    justify-content: center;
    
   }
 
   .content {
     padding: 15px;
+  }
 
+  .bouquet-item-image {
+    height: 90px;
+    width: 90px;
+    background-position: center;
+    background-size: contain; 
+    /* display: flex;
+    flex-flow: wrap;*/
+    /* padding: 10px; */
+    /* margin: auto; */
+  }
+
+  .bouquet-item {
+    padding: 10px;
+  }
+
+  #bouquet-list {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    /* padding: 10px; */
+    /* margin: auto; */
   }
 
  
