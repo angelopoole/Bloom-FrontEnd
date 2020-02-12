@@ -12,6 +12,14 @@ const flowerList = document.querySelector("#flower-list")
 let currentBouquet = [];
 let sidebarOpen = false
 
+// const sideBar = document.getElementById('sidebar');
+//     const sideBarButton = document.getElementById('open-sidebar');
+//     const mainContainer = document.getElementById('main');
+//     const flowerList = document.querySelector("#flower-list")
+//     let FETCH_ALL_URL = "http://localhost:3000/"
+
+
+
 
 /*----------------EVENT-LISTENERS------------*/
 
