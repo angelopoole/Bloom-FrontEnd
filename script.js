@@ -92,14 +92,36 @@ let sidebarOpen = false
                     console.log(currentBouquet)
                     bouquetItem.innerHTML = `
                             <img class="bouquet-item-image" src="./images/${flower.img_url}.png" />`
-                    bouquetList.append(bouquetItem)       
-                }    
+                    bouquetList.append(bouquetItem)  
+
+                    // Create Sounds and Sliders
+
+                    const sound = createSound(flower);
+                    const slider = createVolumeSlider(flower);
+
+                    console.log(sound.dataset.action);
+                    console.log(slider);
+                    if (sound.dataset.action === "off") {
+                        console.log("should be playing")
+                        sound.play();
+                        sound.dataset.action = "on";
+                    } else if (sound.dataset.action === "on") {
+                        console.log("should be pausing")
+                        sound.pause();
+                        sound.dataset.action = "off";
+                    }
+
+                    slider.oninput = () => {
+                        const input = slider.value;
+                        adjustVolume(sound, input)
+                    }     
+                }   
             })
             
             closeButton.addEventListener("click", () => {
                 // let flowerMain = document.querySelector("#flower-main")
                 flowerMain.style.display = "none"
-            })    
+            })   
 
         })    
     
@@ -111,6 +133,32 @@ let sidebarOpen = false
     }
     
 /*----------------RENDERERS------------------*/
+
+function createSound (flower) {
+    const sound = document.createElement('audio');
+    
+    sound.id = flower.name;
+    sound.src = `./sounds/${flower.sound}.mp3`
+    sound.dataset.action = "off";
+    document.getElementById(flower.name).append(sound);
+    
+    return sound;
+}
+
+function createVolumeSlider (flower) {
+    const slider = document.createElement('input');
+    slider.id = flower.name;
+    slider.type = "range";
+    slider.min = "0";
+    slider.max = "100";
+    document.getElementById(flower.name).append(slider);
+    return slider;
+}
+
+function adjustVolume (sound, input) {
+    input = parseFloat(input * 0.01).toFixed(2);
+    sound.volume = input;
+}
 
 function persistBouquet (name, description, flowerIdStr) {
     const data = {
