@@ -11,6 +11,7 @@
     background-color: rgba(255, 255, 255, 0.664); /* Black*/
     padding-top: 10px; /* Place content 20px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+    /* display: flex; */
    
   }
 
@@ -43,7 +44,15 @@
     padding: 30px;
     display: grid;
     grid-template-rows: 50% 50%;
+    /* overflow: hidden;
+    overflow-y:auto; */
+    /* min-height: 100vh; */
   }
+
+  /* * {
+    grid-template-rows: 40% 40% 20%;
+    grid-template-columns: 33% 33% 33%;
+  } */
 
   .side-image {
     height: 90px;
@@ -62,14 +71,39 @@
   #flower-main {
     height: 75vh;
     text-align: left;
+    /* text-overflow:  */
     display: flex;
     flex-flow: wrap;
     margin: auto;
-    width: 50%;
+    justify-content: center;
+   
   }
 
   .content {
     padding: 15px;
+  }
+
+  .bouquet-item-image {
+    height: 90px;
+    width: 90px;
+    background-position: center;
+    background-size: contain; 
+    /* display: flex;
+    flex-flow: wrap;*/
+    /* padding: 10px; */
+    /* margin: auto; */
+  }
+
+  .bouquet-item {
+    padding: 10px;
+  }
+
+  #bouquet-list {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    /* padding: 10px; */
+    /* margin: auto; */
   }
 
  

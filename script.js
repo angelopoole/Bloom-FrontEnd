@@ -1,25 +1,37 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    
-    /*----------------DOM-ELEMENTS---------------*/
-    
-    const sideBar = document.getElementById('sidebar');
-    const sideBarButton = document.getElementById('open-sidebar');
-    const mainContainer = document.getElementById('main');
-    const flowerList = document.querySelector("#flower-list")
-    let FETCH_ALL_URL = "http://localhost:3000/"
-    
-    
-    /*----------------EVENT-LISTENERS------------*/
-    
-    fetch(FETCH_ALL_URL + 'flowers')
-    .then(r => r.json())
-    .then(data => {
-        renderAllFlowers(data)
-    })
-    
-    /*----------------EVENT-HANDLERS-------------*/
+  
+    let bouquetArray = []
+/*----------------DOM-ELEMENTS---------------*/
+
+const sideBar = document.getElementById('sidebar');
+const sideBarButton = document.getElementById('open-sidebar');
+const mainContainer = document.getElementById('main');
+
+
+// const sideBar = document.getElementById('sidebar');
+//     const sideBarButton = document.getElementById('open-sidebar');
+//     const mainContainer = document.getElementById('main');
+//     const flowerList = document.querySelector("#flower-list")
+//     let FETCH_ALL_URL = "http://localhost:3000/"
+
+
+
+
+/*----------------EVENT-LISTENERS------------*/
+
+// addButton.addEventListener("click", () => {
+//     console.log('clicked me')
+// })
+
+// closeButton.addEventListener("click", () => {
+//     console.log ('clicked me too')
+//     // let flowerMain = document.querySelector("#flower-main")
+//     // flowerMain.style.display = "none"
+// })
+
+/*----------------EVENT-HANDLERS-------------*/
     let sidebarOpen = false
-    
+
     sideBarButton.addEventListener("click", () => {
         sidebarOpen = !sidebarOpen
         if (sidebarOpen) {
@@ -32,9 +44,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
             mainContainer.style.marginLeft = "0px";
         }   
     })
-    
-    /*----------------RENDERERS------------------*/
-    
+
+/*----------------RENDERERS------------------*/
+    const flowerList = document.querySelector("#flower-list")
+
     function renderOneFlower(flower) {
         const flowerSpan = document.createElement('span')
         flowerSpan.className = "card"
@@ -50,60 +63,65 @@ document.addEventListener('DOMContentLoaded', (event) => {
         
         flowerSpan.addEventListener("click", () => {
             let flowerMain = document.querySelector("#flower-main")
+            flowerMain.style.display = "flex"
+
             flowerMain.innerHTML = `
-            <div class="main-image" style="background-image: url(${flower.img_url})"> </div>
-            <div class="content">
-            <div class="name"><h2>${flower.name}</h2></div>
-            <div class="meaning"><p>Meaning: ${flower.meaning}<p></div>
-            <div class="sound"><p>Sound: ${flower.sound}</p></div>
-            <button id="add-to-bouquet">Add to Bouquet</button>
-            <button id="close">Close</button>
-            </div> `
-            
+                <div class="main-image" style="background-image: url(${flower.img_url})"> </div>
+                    <div class="content">
+                        <div class="name"><h2>${flower.name}</h2></div>
+                        <div class="meaning"><p>Meaning: ${flower.meaning}<p></div>
+                        <div class="sound"><p>Sound: ${flower.sound}</p></div>
+                        <button id="add-to-bouquet">Add to Bouquet</button>
+                        <button id="close">Close</button>
+                    </div> `
+
             const addButton = document.querySelector("#add-to-bouquet")
             const closeButton = document.querySelector("#close")
-            
-            addButton.addEventListener("click", () => saveBouquet())
+
+            addButton.addEventListener("click", () => {
+                const bouquetList = document.querySelector("#bouquet-list")
+                const bouquetItem = document.createElement("span")
+                bouquetItem.className = "bouquet-item"
+                bouquetItem.dataset.id = flower.id
+
+                if (!bouquetArray.includes(bouquetItem.dataset.id)) {
+                    bouquetArray.push(bouquetItem.dataset.id)
+                    console.log(bouquetArray)
+                    bouquetItem.innerHTML = `
+                            <div class="bouquet-item-image" style="background-image: url(${flower.img_url})"></div>`
+                    bouquetList.append(bouquetItem)       
+                }
+                
+
+            })
             
             closeButton.addEventListener("click", () => {
-                console.log('clicked me too')
+                // let flowerMain = document.querySelector("#flower-main")
+                flowerMain.style.display = "none"
             })
-        })
+            
+
+            })
     }
-    
-    
-    
+        
+        
     function renderAllFlowers(flowers) {
         flowers.forEach(renderOneFlower)
     }
     
-    
-    
-    
-    
-    
-});
 
-// exp 
-// I need the flower and the bouque. then i need to create a FlowerBouquet with those two as soon as a bouquet is made 
-// expiremental code 
-// function buttonSaveHandler(e){
-//     // event.preventDefault 
-//     // fetch(FETCH_ALL_URL + ':id')
-// }
 
-function saveBouquet(e) {
-    console.log("hello!");
-    
-    const flowerArray = ["hello"];
-    const description = "test desc"
-    const name = "test name"
+    fetch("http://localhost:3000/flowers")
+        .then(r => r.json())
+        .then(data => {
+            renderAllFlowers(data)
+        })
 
 
     const data={
         name: name,
         description: description,
-        flower: flowerArray
+        flower: bouquetArray
     };
     
     const config={
@@ -118,7 +136,7 @@ function saveBouquet(e) {
     .then(res => res.json())
     .then(data => console.log(data))
     // here we make a post for the FlowerBouquet object to create the relationship
-}
+})
 
 // function createFlowerBouquet(data){
     //     console.log("works!")
