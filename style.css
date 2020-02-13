@@ -158,11 +158,16 @@ body {
     margin: 20vh auto 0;
     padding: 40px;
     border-radius: 20px;
+    text-align: center;
+    
   }
 
   #form-content {
     text-align: center;
+    padding-bottom: 6px;
   }
+
+ 
 
 
 
