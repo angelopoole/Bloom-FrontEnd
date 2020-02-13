@@ -82,40 +82,40 @@ let sidebarOpen = false
             const closeButton = document.querySelector("#close")
 
             addButton.addEventListener("click", () => {
-                const bouquetList = document.querySelector("#bouquet-list")
-                const bouquetItem = document.createElement("span")
+                const selectedFlowers = document.querySelector("#selected-flowers")
+                const bouquetItem = document.createElement("div")
                 bouquetItem.className = "bouquet-item"
                 bouquetItem.dataset.id = flower.id
 
                 if (!currentBouquet.includes(bouquetItem.dataset.id)) {
                     currentBouquet.push(bouquetItem.dataset.id)
-                    console.log(currentBouquet)
                     bouquetItem.innerHTML = `
                             <img class="bouquet-item-image" src="./images/${flower.img_url}.png" />`
-                    bouquetList.append(bouquetItem)  
+                    selectedFlowers.append(bouquetItem)  
 
                     // Create Sounds and Sliders
 
-                    const sound = createSound(flower);
-                    const slider = createVolumeSlider(flower);
+                    const sound = createSound(flower, bouquetItem);
+                    const slider = createVolumeSlider(flower, bouquetItem);
+                    console.log(bouquetItem.img)
+                    
+                    bouquetItem.onclick = (e) => {
+                        if (e.target.tagName === "IMG" && sound.dataset.action === "off") {
+                            console.log("should be playing")
+                            sound.play();
+                            sound.dataset.action = "on";
+                        } else if (e.target.tagName === "IMG" && sound.dataset.action === "on") {
+                            console.log("should be pausing")
+                            sound.pause();
+                            sound.dataset.action = "off";
+                        }
 
-                    console.log(sound.dataset.action);
-                    console.log(slider);
-                    if (sound.dataset.action === "off") {
-                        console.log("should be playing")
-                        sound.play();
-                        sound.dataset.action = "on";
-                    } else if (sound.dataset.action === "on") {
-                        console.log("should be pausing")
-                        sound.pause();
-                        sound.dataset.action = "off";
-                    }
-
-                    slider.oninput = () => {
-                        const input = slider.value;
-                        adjustVolume(sound, input)
-                    }     
-                }   
+                        slider.oninput = () => {
+                            const input = slider.value;
+                            adjustVolume(sound, input)
+                        }     
+                    }  
+                } 
             })
             
             closeButton.addEventListener("click", () => {
@@ -134,24 +134,31 @@ let sidebarOpen = false
     
 /*----------------RENDERERS------------------*/
 
-function createSound (flower) {
+function createSound (flower, bouquetItem) {
     const sound = document.createElement('audio');
     
     sound.id = flower.name;
     sound.src = `./sounds/${flower.sound}.mp3`
-    sound.dataset.action = "off";
-    document.getElementById(flower.name).append(sound);
+    sound.dataset.action = "on";
+    bouquetItem.append(sound);
+    sound.play();
     
     return sound;
 }
 
-function createVolumeSlider (flower) {
-    const slider = document.createElement('input');
+function createVolumeSlider (flower, bouquetItem) {
+    const sliderOuterDiv = document.createElement("div");
+    const slider = document.createElement("input");
+
+    sliderOuterDiv.className = "slider-container";
+
     slider.id = flower.name;
     slider.type = "range";
     slider.min = "0";
     slider.max = "100";
-    document.getElementById(flower.name).append(slider);
+
+    sliderOuterDiv.append(slider)
+    bouquetItem.append(sliderOuterDiv);
     return slider;
 }
 
