@@ -15,11 +15,6 @@ const popUp = document.getElementById('modal')
 let currentBouquet = [];
 let sidebarOpen = false
 
-// const sideBar = document.getElementById('sidebar');
-
-//     const mainContainer = document.getElementById('main');
-//     const flowerList = document.querySelector("#flower-list")
-//     let FETCH_ALL_URL = "http://localhost:3000/"
 
 
 
@@ -38,6 +33,7 @@ let sidebarOpen = false
             const originalFormContentHTML = formContent.innerHTML
 
             formContent.innerHTML = "🌸 Bouquet Saved! 🌸"
+            goBackButton.style.display = "none"
             setTimeout(function(){ 
                 popUp.style.display = "none";
                 formContent.innerHTML = originalFormContentHTML;
@@ -114,8 +110,8 @@ let sidebarOpen = false
 
                     // Create Sounds and Sliders
 
-                    const sound = createSound(flower, bouquetItem);
-                    const slider = createVolumeSlider(flower, bouquetItem);
+                    let sound = createSound(flower, bouquetItem);
+                    let slider = createVolumeSlider(flower, bouquetItem);
                     console.log(bouquetItem.img)
                     
                     bouquetItem.onclick = (e) => {
@@ -155,7 +151,6 @@ let sidebarOpen = false
 
 function createSound (flower, bouquetItem) {
     const sound = document.createElement('audio');
-    
     sound.id = flower.name;
     sound.src = `./sounds/${flower.sound}.mp3`
     sound.dataset.action = "on";
@@ -207,9 +202,123 @@ function persistBouquet (name, description, flowerIdStr) {
     
 }
 
+/*--------------INITIAL RENDER-------------------*/
     fetch("http://localhost:3000/flowers")
         .then(r => r.json())
         .then(data => {
             renderAllFlowers(data)
         })
-    });
+        
+        fetch("http://localhost:3000/bouquets")
+        .then(r => r.json())
+        .then((bouquetData) => pushBouquetIntoArray(bouquetData))
+        
+        
+        
+    // show bouquet modal 
+    const viewAllButton = document.getElementById("view-all-bouquets")
+        
+    viewAllButton.addEventListener('click', e => {
+        e.preventDefault()
+        getAllbouquets()
+        document.getElementById('bouquetModal').style.display = "block";    
+    })
+
+    // close bouquet modal
+    const bouquetModal = document.getElementById('bouquetModal') 
+    
+    bouquetModal.addEventListener("click", e => {
+        e.preventDefault()
+        
+        if (e.target.dataset.action === "close") {
+            bouquetModal.style.display = "none";
+        }
+    })
+    
+    
+    function getAllbouquets(){
+        fetch("http://localhost:3000/bouquets")
+            .then(res => res.json())
+            .then(bouquetData => renderAllBouquets(bouquetData) )
+    }
+
+    
+    function getBouquetById(bouquet){
+        fetch(`http://localhost:3000/bouquets/${bouquet.id}`)
+          .then(r => r.json())
+          .then(data => loadBouquet(data[1]))
+    }
+    
+    function loadBouquet (flowersArr) {
+        currentBouquet = flowersArr
+        console.log(currentBouquet)
+        console.log(createSound)
+        // currentBouquet.forEach(retrieveBouquetFlowers)
+    }
+    
+    
+    function retrieveBouquetFlowers(flower) {
+        const selectedFlowers = document.querySelector("#selected-flowers")
+        const bouquetItem = document.createElement("div")
+        // let currentBouquet = []
+        
+        
+        if (!currentBouquet.includes(flower.id)) {
+            currentBouquet.push(flower.id)
+            bouquetItem.innerHTML = `
+            <img class="bouquet-item-image" src="./images/${flower.img_url}.png" />`
+            selectedFlowers.append(bouquetItem)  
+
+            // Create Sounds and Sliders
+
+            let sound = createSound(flower, bouquetItem);
+            let slider = createVolumeSlider(flower, bouquetItem);
+            
+            bouquetItem.onclick = (e) => {
+                if (e.target.tagName === "IMG" && sound.dataset.action === "off") {
+                    console.log("should be playing")
+                    sound.play();
+                    sound.dataset.action = "on";
+                } else if (e.target.tagName === "IMG" && sound.dataset.action === "on") {
+                    console.log("should be pausing")
+                    sound.pause();
+                    sound.dataset.action = "off";
+                }
+
+                slider.oninput = () => {
+                    const input = slider.value;
+                    adjustVolume(sound, input)
+                }     
+            }  
+        } 
+    }
+    
+    function renderOneBouquet(bouquet){
+        const bouquetList = document.querySelector("#bouquet-list")
+        const name = bouquet.name;
+        const description = bouquet.description;
+        
+        bouquetLi = document.createElement('li')
+        
+        bouquetLi.innerText = `${name}`
+        
+        bouquetList.append(bouquetLi)
+        
+        bouquetLi.addEventListener("click", (e) => {
+            // const foundBouquet = getBouquetById(bouquet)
+            // const foundBouquetFlowers = foundBouquet.then(r => r[1])
+            getBouquetById(bouquet)
+            // currentBouquet = foundBouquetFlowers
+            // currentBouquet.forEach(retrieveBouquetFlowers)
+        })
+    }
+
+    function renderAllBouquets(bouquetData){
+        bouquetData.forEach(renderOneBouquet)
+    }
+    
+    
+    getAllbouquets()
+
+    
+});

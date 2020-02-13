@@ -1,53 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <script defer src="script.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Bloom</title>
-    <link rel = "icon" type = "image/png"   href= "images/bloomblossom.png">
-</head>
-<body>
-<div id="app">
-    <div id="sidebar">
-        <div class="sidebar-content">
-            <p class="sidebar-text">Select a Flower</p>
-            <div id="flower-list">
-                <!-- sidebar flower list here -->
+    <html lang="en">
+        <head>
+            <script defer src="script.js"></script>
+            <link rel="stylesheet" href="style.css">
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <title>Bloom</title>
+            <link rel = "icon" type = "image/png"   href= "images/bloomblossom.png">
+        </head>
+
+    <body>
+        <div id="app">
+            <div id="sidebar">
+                <div class="sidebar-content">
+                    <p class="sidebar-text">Select a Flower</p>
+                    <div id="flower-list">
+                        <!-- sidebar flower list here -->
+                    </div>
+                </div>
+            </div>
+            
+            <div id="main">
+                <div id="flower-main">
+                    <!-- selected flower image here -->
+                </div>
+                <div id="bottom-bar">
+                    <div id="selected-flowers">
+                        <!-- all flowers chosen for bouquet here -->
+                    </div>
+            
+                    <div id="bouquet-buttons">
+                        <button id="create-bouquet">Save Bouquet</button>
+                        <button id="view-all-bouquets">View All Bouquets</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div id="main">
-        <div id="flower-main">
-            <!-- selected flower image here -->
+        
+        <!-- Pop up form to save a bouquet -->
+        <div id="modal" style="display: none;" data-action="close">
+            <form id="save-bouquet-form">
+                <div id="form-content">
+                    <h2 style="margin: 0px;">🌸 Save Bouquet 🌸</h2><br>
+                    <label for="name">Name:</label>
+                    <input type="text" name="name"><br><br>
+                    <label for="description"> Description:</label>
+                    <input type="text" name="description"><br><br>
+                    <input type="submit" value="Create Bouquet">
+                </div>
+                <button id="go-back">Go Back</button> 
+            </form>
+        </div>  
+
+        <!-- This modal will display the bouquets ~^~^~^ -->
+        <div id="bouquetModal" style="display: none;" data-action="close">
+                
+                    <ul id="bouquet-list"><h2>🌸 Saved Bouquets 🌸</h2>
+                        <!-- bouquet list will appear here through modal  -->
+                    </ul>
+                
         </div>
-        <div id="bottom-bar">
-            <div id="selected-flowers">
-                <!-- flowers chosen for bouquet here -->
-            </div>
-    
-            <div id="bouquet-buttons">
-                <button id="create-bouquet">Save Bouquet</button>
-            </div>
-        </div>
-    </div>
-</div>
-    
-<div id="modal" style="display: none;" data-action="close">
-    <form id="save-bouquet-form">
-        <div id="form-content">
-            <h2 style="margin: 0px;">🌸 Save Bouquet 🌸</h2><br>
-            <label for="name">Name:</label>
-            <input type="text" name="name"><br><br>
-            <label for="description"> Description:</label>
-            <input type="text" name="description"><br><br>
-            <input type="submit" value="Create Bouquet">
-        </div>
-        <button id="go-back">Go Back</button> 
-    </form>
-</div>  
-</body>
+    </body>
 </html>
