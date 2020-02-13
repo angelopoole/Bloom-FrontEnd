@@ -101,23 +101,46 @@ let sidebarOpen = false
 
             addButton.addEventListener("click", () => {
                 const selectedFlowers = document.querySelector("#selected-flowers")
-                const bouquetItem = document.createElement("span")
+                const bouquetItem = document.createElement("div")
+
                 bouquetItem.className = "bouquet-item"
                 bouquetItem.dataset.id = flower.id
 
                 if (!currentBouquet.includes(bouquetItem.dataset.id)) {
                     currentBouquet.push(bouquetItem.dataset.id)
-                    console.log(currentBouquet)
                     bouquetItem.innerHTML = `
                             <img class="bouquet-item-image" src="./images/${flower.img_url}.png" />`
-                    selectedFlowers.append(bouquetItem)       
-                }    
+                    selectedFlowers.append(bouquetItem)  
+
+                    // Create Sounds and Sliders
+
+                    const sound = createSound(flower, bouquetItem);
+                    const slider = createVolumeSlider(flower, bouquetItem);
+                    console.log(bouquetItem.img)
+                    
+                    bouquetItem.onclick = (e) => {
+                        if (e.target.tagName === "IMG" && sound.dataset.action === "off") {
+                            console.log("should be playing")
+                            sound.play();
+                            sound.dataset.action = "on";
+                        } else if (e.target.tagName === "IMG" && sound.dataset.action === "on") {
+                            console.log("should be pausing")
+                            sound.pause();
+                            sound.dataset.action = "off";
+                        }
+
+                        slider.oninput = () => {
+                            const input = slider.value;
+                            adjustVolume(sound, input)
+                        }     
+                    }  
+                } 
             })
             
             closeButton.addEventListener("click", () => {
                 // let flowerMain = document.querySelector("#flower-main")
                 flowerMain.style.display = "none"
-            })    
+            })   
 
         })    
     
@@ -129,6 +152,39 @@ let sidebarOpen = false
     }
     
 /*----------------RENDERERS------------------*/
+
+function createSound (flower, bouquetItem) {
+    const sound = document.createElement('audio');
+    
+    sound.id = flower.name;
+    sound.src = `./sounds/${flower.sound}.mp3`
+    sound.dataset.action = "on";
+    bouquetItem.append(sound);
+    sound.play();
+    
+    return sound;
+}
+
+function createVolumeSlider (flower, bouquetItem) {
+    const sliderOuterDiv = document.createElement("div");
+    const slider = document.createElement("input");
+
+    sliderOuterDiv.className = "slider-container";
+
+    slider.id = flower.name;
+    slider.type = "range";
+    slider.min = "0";
+    slider.max = "100";
+
+    sliderOuterDiv.append(slider)
+    bouquetItem.append(sliderOuterDiv);
+    return slider;
+}
+
+function adjustVolume (sound, input) {
+    input = parseFloat(input * 0.01).toFixed(2);
+    sound.volume = input;
+}
 
 function persistBouquet (name, description, flowerIdStr) {
     const data = {

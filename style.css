@@ -96,7 +96,7 @@ body {
   }
 
   .side-image {
-    height: 90px;
+    height: 100px;
     background-position: center;
     background-size: contain; 
   }
@@ -118,13 +118,14 @@ body {
   }
 
   .bouquet-item-image {
-    height: 90px;
+    height: 150px;
     background-position: center;
     background-size: contain; 
   }
 
   .bouquet-item {
     padding: 10px;
+    display: inline-block;
   }
 
   #selected-flowers {
@@ -164,6 +165,103 @@ body {
     text-align: center;
   }
 
+/* massive amount of css for volume slider (sorry) */
+
+.sliderContainer {
+  justify-content: center;
+}
+
+input[type=range] {
+  height: 25px;
+  -webkit-appearance: none;
+  margin: 10px 0;
+  width: 75%;
+  background: none;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 1px 1px 10px #E3E4FF;
+  background: #9BBA9E;
+  border-radius: 10px;
+  border: 2px solid #95A685;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 0px 0px 0px #4F4D52;
+  border: 1px solid #E3BCD9;
+  height: 7px;
+  width: 8px;
+  border-radius: 400px;
+  background: #E3BCD9;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -3.25px;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #9BBA9E;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 1px 1px 10px #E3E4FF;
+  background: #9BBA9E;
+  border-radius: 10px;
+  border: 2px solid #95A685;
+}
+input[type=range]::-moz-range-thumb {
+  box-shadow: 0px 0px 0px #4F4D52;
+  border: 1px solid #E3BCD9;
+  height: 18px;
+  width: 18px;
+  border-radius: 25px;
+  background: #EDD1E2;
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #9BBA9E;
+  border: 2px solid #95A685;
+  border-radius: 20px;
+  box-shadow: 1px 1px 10px #E3E4FF;
+}
+input[type=range]::-ms-fill-upper {
+  background: #9BBA9E;
+  border: 2px solid #95A685;
+  border-radius: 20px;
+  box-shadow: 1px 1px 10px #E3E4FF;
+}
+input[type=range]::-ms-thumb {
+  margin-top: 1px;
+  box-shadow: 0px 0px 0px #4F4D52;
+  border: 1px solid #E3BCD9;
+  height: 18px;
+  width: 18px;
+  border-radius: 25px;
+  background: #EDD1E2;
+  cursor: pointer;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #9BBA9E;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #9BBA9E;
+}
 
 
  
