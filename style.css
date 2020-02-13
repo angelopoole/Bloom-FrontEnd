@@ -118,13 +118,14 @@ body {
   }
 
   .bouquet-item-image {
-    height: 150px;
+    height: 125px;
     background-position: center;
     background-size: contain; 
   }
 
   .bouquet-item {
     padding: 10px;
+    text-align: center;
     display: inline-block;
   }
 
@@ -168,14 +169,14 @@ body {
 /* massive amount of css for volume slider (sorry) */
 
 .sliderContainer {
-  justify-content: center;
+justify-content: center;
 }
 
 input[type=range] {
   height: 25px;
   -webkit-appearance: none;
   margin: 10px 0;
-  width: 75%;
+  width: 100px;
   background: none;
 }
 input[type=range]:focus {
