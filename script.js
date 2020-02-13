@@ -2,18 +2,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 /*----------------DOM-ELEMENTS---------------*/
 
+const app = document.getElementById('app');
 const sideBar = document.getElementById('sidebar');
-const sideBarButton = document.getElementById('open-sidebar');
 const mainContainer = document.getElementById('main');
 const saveButton = document.getElementById('create-bouquet');
+const goBackButton = document.getElementById('go-back')
 const saveForm = document.getElementById('save-bouquet-form');
+const formContent = document.getElementById('form-content')
 const flowerList = document.querySelector("#flower-list")
+const popUp = document.getElementById('modal')
 
 let currentBouquet = [];
 let sidebarOpen = false
 
 // const sideBar = document.getElementById('sidebar');
-//     const sideBarButton = document.getElementById('open-sidebar');
+
 //     const mainContainer = document.getElementById('main');
 //     const flowerList = document.querySelector("#flower-list")
 //     let FETCH_ALL_URL = "http://localhost:3000/"
@@ -25,28 +28,43 @@ let sidebarOpen = false
 
 
     saveButton.addEventListener("click", e => {
-        document.getElementById('modal').style.display = "block";
+        popUp.style.display = "block";
         saveForm.onsubmit = (e) => {
             e.preventDefault();
             const name = saveForm.name.value;
             const description = saveForm.description.value
             const flowerIdStr = currentBouquet.toString();
             persistBouquet(name, description, flowerIdStr);
+            const originalFormContentHTML = formContent.innerHTML
+
+            formContent.innerHTML = "🌸 Bouquet Saved! 🌸"
+            setTimeout(function(){ 
+                popUp.style.display = "none";
+                formContent.innerHTML = originalFormContentHTML;
+                saveForm.reset(); 
+            }, 2000);
+
         }
+    })
+
+    goBackButton.addEventListener("click", e => {
+        e.preventDefault();
+        popUp.style.display = "none";
     })
 
 /*----------------EVENT-HANDLERS-------------*/
 
-    sideBarButton.addEventListener("click", () => {
+    sideBar.addEventListener("mouseenter", () => {
         sidebarOpen = !sidebarOpen
         if (sidebarOpen) {
-            sideBarButton.innerText = "Close Sidebar"
-            sideBar.style.width = "200px";
-            mainContainer.style.marginLeft = "200px";
-        } else {
-            sideBarButton.innerText = "Open Sidebar"
-            sideBar.style.width = "0px";
-            mainContainer.style.marginLeft = "0px";
+            app.classList.add("sidebar-open");
+        }
+    });
+
+    sideBar.addEventListener("mouseleave", () => {
+        sidebarOpen = !sidebarOpen
+        if (!sidebarOpen) {
+            app.classList.remove("sidebar-open");
         }   
     })
 
@@ -82,7 +100,7 @@ let sidebarOpen = false
             const closeButton = document.querySelector("#close")
 
             addButton.addEventListener("click", () => {
-                const bouquetList = document.querySelector("#bouquet-list")
+                const selectedFlowers = document.querySelector("#selected-flowers")
                 const bouquetItem = document.createElement("span")
                 bouquetItem.className = "bouquet-item"
                 bouquetItem.dataset.id = flower.id
@@ -92,7 +110,7 @@ let sidebarOpen = false
                     console.log(currentBouquet)
                     bouquetItem.innerHTML = `
                             <img class="bouquet-item-image" src="./images/${flower.img_url}.png" />`
-                    bouquetList.append(bouquetItem)       
+                    selectedFlowers.append(bouquetItem)       
                 }    
             })
             

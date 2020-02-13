@@ -1,23 +1,83 @@
 /* Styles go here! */
+@keyframes fadein{
+  0% { opacity:0; }
+  66% { opacity:0; }
+  100% { opacity:1; }
+}
+
+body {
+  background: radial-gradient(circle, rgba(246,199,219,1) 0%, rgba(148,187,233,1) 100%);
+  /* background-image: url("./images/flower-background-3.JPG"); */
+  background-size: cover;
+  transition: margin-left .5s; /* If you want a transition effect */
+  margin: 0;
+}
+
+
+/* Main content  */
+
+#main {
+  transition: 0.5s;
+  padding-top: 30px;
+}
+
+.sidebar-open #main {
+  margin-left: 200px;
+}
+
+.main-image {
+  height: 200px;
+  background-position: center;
+  background-size: contain; 
+}
+
+#flower-main {
+  height: 75vh;
+  text-align: left;
+  display: flex;
+  flex-flow: wrap;
+  margin: auto;
+  justify-content: center;
+ 
+}
+
+.content {
+  padding: 15px;
+}
+
+
+/* Sidebar view and hover */
 
 #sidebar {
     height: 100%; /* 100% Full-height */
-    width: 0px; /* 0 width - change this with JavaScript */
+    width: 25px; /* 0 width - change this with JavaScript */
     position: absolute; /* Position them relative to the browser window */
-    z-index: 1; /* Stay on top */
     top: 0;
     left: 0;
     overflow-x: hidden; /* Disable horizontal scroll */
     background-color: rgba(255, 255, 255, 0.664); /* Black*/
     padding-top: 10px; /* Place content 20px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
-    /* display: flex; */
-   
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2), 0 10px 20px 0 rgba(0, 0, 0, 0.19)
+    /* border-right: 1px solid #bbb; */  
   }
 
-  /* #sidebar a:hover {
-    left: 0; /* On mouse-over, make the elements appear as they should */
-  /* } */ 
+  .sidebar-content {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    animation: 0.6s ease 0s normal forwards 1 fadein;
+  }
+
+  .sidebar-open #sidebar {
+    width: 200px;
+  }
+
+  .sidebar-open .sidebar-content {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+  }
   
   .sidebar-text {
       color: rgb(17, 17, 17);
@@ -25,7 +85,6 @@
       font-size: larger;
       text-align: center; 
   }
-
 
   .card {
     text-align: center;
@@ -36,44 +95,26 @@
     
   }
 
-  body {
-    background-color: cornsilk;
-    /* background-image: url("./images/flower-background-3.JPG"); */
-    background-size: cover;
-    transition: margin-left .5s; /* If you want a transition effect */
-    padding: 30px;
-    display: grid;
-    grid-template-rows: 50% 50%;
-    /* overflow: hidden;
-    overflow-y:auto; */
-    /* min-height: 100vh; */
-  }
-
-
   .side-image {
     height: 90px;
     background-position: center;
     background-size: contain; 
   }
 
-  .main-image {
-    height: 200px;
-    background-position: center;
-    background-size: contain; 
+
+  /* Bottom bar with selected flower images and save bouquet/view all buttons */
+
+  #bottom-bar {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    width: 100%;
+    transition: 0.5s;
   }
 
-  #flower-main {
-    height: 75vh;
-    text-align: left;
-    display: flex;
-    flex-flow: wrap;
-    margin: auto;
-    justify-content: center;
-   
-  }
-
-  .content {
-    padding: 15px;
+  .sidebar-open #bottom-bar {
+    left: 200px;
+    width: calc(100% - 200px);
   }
 
   .bouquet-item-image {
@@ -86,11 +127,19 @@
     padding: 10px;
   }
 
-  #bouquet-list {
+  #selected-flowers {
     display: flex;
     flex-flow: wrap;
     justify-content: center;
   }
+
+  #bouquet-buttons {
+    text-align: center;
+  }
+
+
+
+  /* Pop up save bouquet form */
 
   #modal {
     position: fixed;
@@ -100,21 +149,21 @@
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.75);
+  
   }
   
   #save-bouquet-form {
     background-color: rgb(255, 237, 194);
-    /* margin-top: 20vh; */
     width: 400px;
-    margin: 20vh;
+    margin: 20vh auto 0;
     padding: 40px;
     border-radius: 20px;
-    justify-content: center;
   }
 
-  #create-bouquet {
-    justify-content: center;
+  #form-content {
+    text-align: center;
   }
+
 
 
  
