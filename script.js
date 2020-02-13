@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 /*----------------DOM-ELEMENTS---------------*/
 
+const app = document.getElementById('app');
 const sideBar = document.getElementById('sidebar');
-const sideBarButton = document.getElementById('open-sidebar');
 const mainContainer = document.getElementById('main');
 const saveButton = document.getElementById('create-bouquet');
 const goBackButton = document.getElementById('go-back')
@@ -16,7 +16,7 @@ let currentBouquet = [];
 let sidebarOpen = false
 
 // const sideBar = document.getElementById('sidebar');
-//     const sideBarButton = document.getElementById('open-sidebar');
+
 //     const mainContainer = document.getElementById('main');
 //     const flowerList = document.querySelector("#flower-list")
 //     let FETCH_ALL_URL = "http://localhost:3000/"
@@ -35,28 +35,36 @@ let sidebarOpen = false
             const description = saveForm.description.value
             const flowerIdStr = currentBouquet.toString();
             persistBouquet(name, description, flowerIdStr);
+            const originalFormContentHTML = formContent.innerHTML
+
             formContent.innerHTML = "🌸 Bouquet Saved! 🌸"
-            setTimeout(function(){ popUp.style.display = "none"; }, 3000);
+            setTimeout(function(){ 
+                popUp.style.display = "none";
+                formContent.innerHTML = originalFormContentHTML;
+                saveForm.reset(); 
+            }, 3000);
 
         }
     })
 
     goBackButton.addEventListener("click", e => {
+        e.preventDefault();
         popUp.style.display = "none";
     })
 
 /*----------------EVENT-HANDLERS-------------*/
 
-    sideBarButton.addEventListener("click", () => {
+    sideBar.addEventListener("mouseenter", () => {
         sidebarOpen = !sidebarOpen
         if (sidebarOpen) {
-            sideBarButton.innerText = "Close Sidebar"
-            sideBar.style.width = "200px";
-            mainContainer.style.marginLeft = "200px";
-        } else {
-            sideBarButton.innerText = "Open Sidebar"
-            sideBar.style.width = "0px";
-            mainContainer.style.marginLeft = "0px";
+            app.classList.add("sidebar-open");
+        }
+    });
+
+    sideBar.addEventListener("mouseleave", () => {
+        sidebarOpen = !sidebarOpen
+        if (!sidebarOpen) {
+            app.classList.remove("sidebar-open");
         }   
     })
 
