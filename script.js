@@ -42,7 +42,7 @@ let sidebarOpen = false
                 popUp.style.display = "none";
                 formContent.innerHTML = originalFormContentHTML;
                 saveForm.reset(); 
-            }, 3000);
+            }, 2000);
 
         }
     })

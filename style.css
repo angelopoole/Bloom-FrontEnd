@@ -58,6 +58,7 @@ body {
     background-color: rgba(255, 255, 255, 0.664); /* Black*/
     padding-top: 10px; /* Place content 20px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2), 0 10px 20px 0 rgba(0, 0, 0, 0.19)
     /* border-right: 1px solid #bbb; */  
   }
 
