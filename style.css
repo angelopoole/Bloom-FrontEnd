@@ -69,6 +69,7 @@ body {
   display: flex;
   flex: 1;
   justify-content: center;
+  align-items: center;
   z-index: -1;
 }
 
@@ -178,6 +179,16 @@ canvas {
     width: 100%;
     transition: 0.5s;
     animation-direction: reverse;
+  }
+
+  .remove-from-bouquet-btn {
+    display: none;
+    color: black;
+    position: absolute;
+    background: transparent;
+    margin-left: -30px;
+    animation: 0.3s ease 0s normal forwards 1 fadein;
+    z-index: 1;
   }
 
 /* Bar with save bouquet/view all buttons */

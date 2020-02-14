@@ -29,12 +29,6 @@ const soundTranslations = {
     "windy-forest": "🌲 🍃"
 }
 
-// const sideBar = document.getElementById('sidebar');
-
-//     const mainContainer = document.getElementById('main');
-//     const flowerList = document.querySelector("#flower-list")
-//     let FETCH_ALL_URL = "http://localhost:3000/"
-
 
 
 
@@ -103,7 +97,13 @@ const soundTranslations = {
 /*----------------RENDERERS------------------*/
 
     function renderOneFlower(flower) {
-        const sound = createSound(flower);
+        let sound;
+        if (!allSoundsById[flower.name]) {
+            sound = createSound(flower);
+        } else {
+            sound = allSoundsById[flower.name];
+        }
+        
         const flowerSpan = document.createElement('span')
         flowerSpan.className = "card"
         flowerSpan.dataset.id = flower.id
@@ -142,7 +142,8 @@ const soundTranslations = {
                 if (!currentBouquet.includes(bouquetItem.dataset.id)) {
                     currentBouquet.push(bouquetItem.dataset.id)
                     bouquetItem.innerHTML = `
-                            <img class="bouquet-item-image" id="${flower.name}-img" src="./images/${flower.img_url}.png" />`
+                            <img class="bouquet-item-image" id="${flower.name}-img" src="./images/${flower.img_url}.png" />
+                            <button class="remove-from-bouquet-btn" id="${flower.name}-remove">Ｘ</button>`
                     selectedFlowers.append(bouquetItem)  
 
                     // Create Sounds and Sliders
@@ -153,7 +154,22 @@ const soundTranslations = {
                         const input = slider.value;
                         adjustVolume(sound, input)
                     }
+
+                    const removeButton = document.getElementById(`${flower.name}-remove`)
                     
+                    bouquetItem.onmouseover = () => {
+                        removeButton.style.display = "inline-block"
+                    }
+                    bouquetItem.onmouseleave = () => {
+                        removeButton.style.display = "none"
+                    }
+                    removeButton.onclick = () => {
+                        sound.pause();
+                        sound.currentTime = 0;
+                        currentBouquet.pop();
+                        selectedFlowers.removeChild(bouquetItem);
+                        renderOneFlower(flower);
+                    }
 
                     bouquetItem.onclick = (e) => {
                         const flowerImg = document.getElementById(`${flower.name}-img`);
@@ -164,19 +180,14 @@ const soundTranslations = {
                         } else if (e.target.tagName === "IMG" && sound.dataset.action === "on") {
                             sound.pause();
                             flowerImg.style.opacity="0.5";
-                            console.log("henlo")
                             sound.dataset.action = "off";
-                        }
-
-                            
+                        }       
                     }
-             
                     renderVisualizer();  
                 } 
             })
             
             closeButton.addEventListener("click", () => {
-                // let flowerMain = document.querySelector("#flower-main")
                 flowerMain.style.display = "none"
             })   
 
@@ -215,9 +226,9 @@ const soundTranslations = {
         bouquetData.forEach(renderOneBouquet)
     }
     
-/*----------------RENDERERS------------------*/
+/*----------------HELPERS------------------*/
 
-function createSound (flower, bouquetItem) {
+function createSound (flower) {
     const sound = document.createElement('audio');
     
     sound.id = flower.name;
@@ -237,16 +248,7 @@ function playSound (sound, id) {
     sound.dataset.action = "on"
     console.log("i am sound", sound)
     sound.play();
-    // const playPromise = sound.play();
-
-    // if (playPromise !== undefined) {
-    //     playPromise.then(_ => {
-    //       sound.pause();
-    //     })
-    //     .catch(error => {
-        
-    //     });
-    //   }
+ 
 }
 
 
@@ -288,7 +290,10 @@ function persistBouquet (name, description, flowerIdStr) {
 
     fetch("http://localhost:3000/bouquets", config)
         .then(r => r.json())
-        .then(rData => pushSavedBouquets(rData));
+        .then(bouquetData => {
+            savedBouquets.push(bouquetData);
+            renderOneBouquet(bouquetData);
+        });
     
 }
 
@@ -309,8 +314,9 @@ function loadSavedBouquet () {
         selectedFlowers.removeChild(selectedFlowers.firstChild);
     }
 
-    currentBouquet.flowers.forEach((flower) => {
+    const removed = [];
 
+    currentBouquet.flowers.forEach((flower) => {
         const bouquetItem = document.createElement("div")
         const sound = allSoundsById[flower.name]
 
@@ -319,7 +325,8 @@ function loadSavedBouquet () {
         bouquetItem.dataset.id = flower.id
 
         bouquetItem.innerHTML = `
-                <img class="bouquet-item-image" src="./images/${flower.img_url}.png" />`
+                <img class="bouquet-item-image" src="./images/${flower.img_url}.png" />
+                <button class="remove-from-bouquet-btn" id="${flower.name}-remove">Ｘ</button>`
         selectedFlowers.append(bouquetItem)  
 
         playSound(sound, flower.name);
@@ -328,17 +335,39 @@ function loadSavedBouquet () {
             const input = slider.value;
             adjustVolume(sound, input)
         }   
+
+        const removeButton = document.getElementById(`${flower.name}-remove`)
+                    
+        bouquetItem.onmouseover = () => {
+            removeButton.style.display = "inline-block"
+        }
+        bouquetItem.onmouseleave = () => {
+            removeButton.style.display = "none"
+        }
+        removeButton.onclick = () => {
+            sound.pause();
+            sound.currentTime = 0;
+            removed.push(flower);
+            selectedFlowers.removeChild(bouquetItem);
+            renderOneFlower(flower);
+        }
         
         bouquetItem.onclick = (e) => {
+            const flowerImg = document.getElementById(`${flower.name}-img`);
             if (e.target.tagName === "IMG" && sound.dataset.action === "off") {
+                flowerImg.style.opacity="1";
                 sound.play();
                 sound.dataset.action = "on";
             } else if (e.target.tagName === "IMG" && sound.dataset.action === "on") {
                 sound.pause();
+                flowerImg.style.opacity="0.5";
                 sound.dataset.action = "off";
-            }
-  
+            }       
         } 
+    })
+    removed.forEach((removedFlower) => {
+        const removedIdx = currentBouquet.indexOf(removedFlower);
+        currentBouquet.splice(removedFlower, 1);
     })
     renderVisualizer();
 }
@@ -350,21 +379,26 @@ function renderVisualizer () {
     const canvas = document.getElementById("vis");
     const canvasContext = canvas.getContext("2d");
 
-    Object.keys(allSoundsById).forEach((id) => audioContextById[id] = createAudioContext(allSoundsById[id]))
+    Object.keys(allSoundsById).forEach((id) => {
+        if (!audioContextById[id]) {
+            audioContextById[id] = createAudioContext(allSoundsById[id])
+        }
+    })
+    
 
 
-    const numBars = 200;
+    const numBars = 130;
 
     let barWidth = (canvas.width / numBars) * 30;
     let barHeight;
 
     function renderFrame() {
+     
         const agg = [];
         const freqDataMany = [];
         canvasContext.clearRect(0, 0, canvas.width, canvas.height)
         requestAnimationFrame(renderFrame);
         
-        // console.log(audioContextById)
         audioContextArr = Object.values(audioContextById);
   
         audioContextArr.forEach((audioContextObj) => {
@@ -390,9 +424,9 @@ function renderVisualizer () {
             canvasContext.stroke();
             canvasContext.closePath();
     
-            for (let i = 0; i < (numBars + 2); i++) {
-                barHeight = (agg[i] * 0.3);
-                barWidth = 2;
+            for (let i = 0; i < (numBars); i++) {
+                barHeight = (agg[i] * 0.4);
+                barWidth = 3;
 
                 
                 let rads = (Math.PI * 2) / numBars;
@@ -411,7 +445,8 @@ function renderVisualizer () {
 
 function drawBar(canvasContext, x1, y1, x2, y2, width){
     const gradient = canvasContext.createLinearGradient(x1, y1, x2, y2);
-    gradient.addColorStop(0, "rgb(211, 197, 222");
+    gradient.addColorStop(0, "rgb(211, 197, 222)");
+    gradient.addColorStop(0.8, "rgb(255, 230, 250)");
     gradient.addColorStop(1, "white");
     
     canvasContext.lineWidth = width;
