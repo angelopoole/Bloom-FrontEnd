@@ -19,6 +19,16 @@ let allSoundsById = {};
 const audioContextById = {};
 let sidebarOpen = false
 
+const soundTranslations = {
+    "birds": "🎶 🦜",
+    "campfire": "🏕 🔥",
+    "rain": "🌧 ☔️",
+    "river": "💦 🏞",
+    "thunder": "⛈ ⚡️",
+    "wind-chime": "🎐 🎵",
+    "windy-forest": "🌲 🍃"
+}
+
 // const sideBar = document.getElementById('sidebar');
 
 //     const mainContainer = document.getElementById('main');
@@ -113,10 +123,10 @@ let sidebarOpen = false
             <img class="main-image" src="./images/${flower.img_url}.png" />
                     <div class="content">
                         <div class="name"><h2>${flower.name}</h2></div>
-                        <div class="meaning"><p>Meaning: ${flower.meaning}<p></div>
-                        <div class="sound"><p>Sound: ${flower.sound}</p></div>
-                        <button id="add-to-bouquet">Add to Bouquet</button>
-                        <button id="close">Close</button>
+                        <div class="meaning"><p><i>Meaning // </i> ${flower.meaning}<p></div>
+                        <div class="sound"><p><i>Sound // </i> <font size="5"> ${soundTranslations[flower.sound]} </font> </p></div>
+                        <button class="btn" id="add-to-bouquet">Add to Bouquet</button>
+                        <button class="btn" id="close">Close</button>
                     </div> `
 
             const addButton = document.querySelector("#add-to-bouquet")
@@ -125,14 +135,14 @@ let sidebarOpen = false
             addButton.addEventListener("click", () => {
                 const selectedFlowers = document.querySelector("#selected-flowers")
                 const bouquetItem = document.createElement("div")
-
+                         
                 bouquetItem.className = "bouquet-item"
                 bouquetItem.dataset.id = flower.id
 
                 if (!currentBouquet.includes(bouquetItem.dataset.id)) {
                     currentBouquet.push(bouquetItem.dataset.id)
                     bouquetItem.innerHTML = `
-                            <img class="bouquet-item-image" src="./images/${flower.img_url}.png" />`
+                            <img class="bouquet-item-image" id="${flower.name}-img" src="./images/${flower.img_url}.png" />`
                     selectedFlowers.append(bouquetItem)  
 
                     // Create Sounds and Sliders
@@ -146,11 +156,15 @@ let sidebarOpen = false
                     
 
                     bouquetItem.onclick = (e) => {
+                        const flowerImg = document.getElementById(`${flower.name}-img`);
                         if (e.target.tagName === "IMG" && sound.dataset.action === "off") {
+                            flowerImg.style.opacity="1";
                             sound.play();
                             sound.dataset.action = "on";
                         } else if (e.target.tagName === "IMG" && sound.dataset.action === "on") {
                             sound.pause();
+                            flowerImg.style.opacity="0.5";
+                            console.log("henlo")
                             sound.dataset.action = "off";
                         }
 
@@ -295,7 +309,6 @@ function loadSavedBouquet () {
 
     currentBouquet.flowers.forEach((flower) => {
 
-        
         const bouquetItem = document.createElement("div")
         const sound = allSoundsById[flower.name]
 

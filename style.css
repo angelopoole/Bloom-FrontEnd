@@ -31,6 +31,7 @@ body {
   height: 200px;
   background-position: center;
   background-size: contain; 
+  padding-top: 33px;
 }
 
 #flower-main {
@@ -39,22 +40,42 @@ body {
   flex-flow: wrap;
   margin: auto;
   justify-content: center;
- 
+  height: 200px;
+}
+
+.name {
+  font-family: Optima, sans-serif;
+}
+
+.h2 {
+  font-weight: 400;
+}
+
+.meaning {
+  font-family: Optima, sans-serif;
+}
+
+.sound {
+  font-family: Optima, sans-serif;
 }
 
 .content {
-  padding: 15px;
+  padding-top: 50px;
+  padding-left: 30px;
+  z-index: 1;
 }
 
 #visualizer {
   display: flex;
   flex: 1;
   justify-content: center;
+  z-index: -1;
 }
 
 canvas {
   height: 500px;
   width: 500px;
+  z-index: -1;
 }
 
 
@@ -92,7 +113,7 @@ canvas {
   
   .sidebar-text {
       color: rgb(17, 17, 17);
-      font-family: cursive;
+      font-family: Optima, sans-serif;
       font-size: larger;
       text-align: center; 
   }
@@ -113,18 +134,24 @@ canvas {
   }
 
 
-  /* Bottom bar with selected flower images and save bouquet/view all buttons */
+  /* Bottom bar with selected flower images  */
 
   #bottom-bar {
     bottom: 15px;
     left: 0;
     width: 100%;
     transition: 0.5s;
+    height: 200px;
   }
 
   .sidebar-open #bottom-bar {
     left: 200px;
     width: calc(100% - 200px);
+  }
+
+  .sidebar-open #selected-flowers {
+    right: 200px;
+    width: calc(100% + 200px);
   }
 
   .bouquet-item-image {
@@ -134,7 +161,6 @@ canvas {
   }
 
   .bouquet-item {
-    padding: 10px;
     text-align: center;
     display: inline-block;
   }
@@ -143,13 +169,44 @@ canvas {
     display: flex;
     flex-flow: wrap;
     justify-content: center;
+    left: 0;
+    bottom: 15px;
+    width: 100%;
+    transition: 0.5s;
+    animation-direction: reverse;
+  }
+
+/* Bar with save bouquet/view all buttons */
+
+  #bouquet-button-bar {
+    height: 20px;
+    display: block;
+    padding: 0;
   }
 
   #bouquet-buttons {
+    padding-bottom: 15px;
     text-align: center;
   }
 
+  .btn {
+    font-family: Optima, sans-serif;
+    background-color: floralwhite;
+    border-radius: 5px;
+    font-size: 11px;
+  }
 
+  .bottom-btn {
+    font-size: 14px;
+  }
+
+  
+  #form-content > input[type=submit]:nth-child(11){
+    background-color: floralwhite;
+    font-family:  Optima, sans-serif;
+    font-size: 12px;
+    border-radius: 5px;
+ }
 
   /* Pop up save bouquet form */
 
@@ -176,6 +233,11 @@ canvas {
   #form-content {
     text-align: center;
     padding-bottom: 6px;
+    font-family: Optima, sans-serif;
+  }
+
+  #create-btn {
+    font-family: Optima, sans-serif;
   }
 
   /* View all bouquets */
@@ -202,8 +264,10 @@ canvas {
 }
 
 ul {
+  font-family: Optima, sans-serif;
   list-style: none;
 }
+
 
 /* massive amount of css for volume slider (sorry) */
 
