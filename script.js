@@ -11,6 +11,8 @@ const saveForm = document.getElementById('save-bouquet-form');
 const formContent = document.getElementById('form-content')
 const flowerList = document.querySelector("#flower-list")
 const popUp = document.getElementById('modal')
+const viewAllButton = document.getElementById("view-all-bouquets")
+const bouquetModal = document.getElementById('bouquetModal') 
 
 let currentBouquet = [];
 let sidebarOpen = false
@@ -50,6 +52,20 @@ let sidebarOpen = false
     goBackButton.addEventListener("click", e => {
         e.preventDefault();
         popUp.style.display = "none";
+    })
+
+    bouquetModal.addEventListener("click", e => {
+        e.preventDefault()
+        
+        if (e.target.dataset.action === "close") {
+            bouquetModal.style.display = "none";
+        }
+    })
+
+    viewAllButton.addEventListener('click', e => {
+        e.preventDefault();
+        renderAllBouquets(savedBouquets);
+        document.getElementById('bouquetModal').style.display = "block";    
     })
 
 /*----------------EVENT-HANDLERS-------------*/
@@ -150,6 +166,29 @@ let sidebarOpen = false
     function renderAllFlowers(flowers) {
         flowers.forEach(renderOneFlower)
     }
+
+    function renderOneBouquet(bouquet){
+        const bouquetList = document.querySelector("#bouquet-list")
+        const name = bouquet.name;
+        const description = bouquet.description;
+        
+        bouquetLi = document.createElement('li')
+        
+        bouquetLi.innerText = `${name}`
+        
+        bouquetList.append(bouquetLi)
+        
+        bouquetLi.addEventListener("click", (e) => {
+
+            const foundBouquet = savedBouquets.find(savedBouquet => savedBouquet.id === bouquet.id);
+            currentBouquet = foundBouquet;
+            loadSavedBouquet();
+        })
+    }
+
+    function renderAllBouquets(bouquetData){
+        bouquetData.forEach(renderOneBouquet)
+    }
     
 /*----------------RENDERERS------------------*/
 
@@ -157,10 +196,21 @@ function createSound (flower, bouquetItem) {
     const sound = document.createElement('audio');
     
     sound.id = flower.name;
-    sound.src = `./sounds/${flower.sound}.mp3`
+    sound.src = `./sounds/${flower.sound}.mp3`;
+    sound.preload = "none";
     sound.dataset.action = "on";
     bouquetItem.append(sound);
-    sound.play();
+    const playPromise = sound.play();
+
+    if (playPromise !== undefined) {
+        playPromise.then(_ => {
+          
+          sound.pause();
+        })
+        .catch(error => {
+        
+        });
+      }
     
     return sound;
 }
@@ -207,9 +257,71 @@ function persistBouquet (name, description, flowerIdStr) {
     
 }
 
+function pushSavedBouquets(savedBouquetData) {
+    savedBouquets = [];
+    savedBouquetData.forEach((bouquet) => {
+        savedBouquets.push(bouquet);
+    })
+}
+
+function loadSavedBouquet () {
+    bouquetModal.style.display = "none";
+
+    currentBouquet.flowers.forEach((flower) => {
+        console.log(flower)
+        
+        const selectedFlowers = document.querySelector("#selected-flowers")
+        const bouquetItem = document.createElement("div")
+
+        bouquetItem.className = "bouquet-item"
+        bouquetItem.dataset.id = flower.id
+
+        bouquetItem.innerHTML = `
+                <img class="bouquet-item-image" src="./images/${flower.img_url}.png" />`
+        selectedFlowers.append(bouquetItem)  
+
+        const sound = createSound(flower, bouquetItem);
+        const slider = createVolumeSlider(flower, bouquetItem);
+        
+        bouquetItem.onclick = (e) => {
+            if (e.target.tagName === "IMG" && sound.dataset.action === "off") {
+                console.log("should be playing")
+                sound.play();
+                sound.dataset.action = "on";
+            } else if (e.target.tagName === "IMG" && sound.dataset.action === "on") {
+                console.log("should be pausing")
+                sound.pause();
+                sound.dataset.action = "off";
+            }
+
+            slider.oninput = () => {
+                const input = slider.value;
+                adjustVolume(sound, input)
+            }     
+        } 
+    })
+
+}
+
+/*----------------INITIAL-RENDER-----------------*/
+
+function init() {
+
     fetch("http://localhost:3000/flowers")
         .then(r => r.json())
         .then(data => {
             renderAllFlowers(data)
         })
-    });
+
+    fetch("http://localhost:3000/bouquets")
+        .then(r => r.json())
+        .then(data => {
+            pushSavedBouquets(data)
+        })
+ }
+
+ init();
+
+}); // end of DOM Content Loaded
+
+
