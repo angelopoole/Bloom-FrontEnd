@@ -59,7 +59,7 @@ body {
   font-family: Optima, sans-serif;
 }
 
-.content {
+.main-content {
   padding-top: 50px;
   padding-left: 30px;
   z-index: 1;
@@ -123,8 +123,12 @@ canvas {
     display: flex;
     flex-flow: column;
     align-items: center;
-    padding-bottom: 10px;
+    padding-bottom: 30px;
     
+  }
+
+  .content {
+    padding-top: 10px;
   }
 
   .side-image {
