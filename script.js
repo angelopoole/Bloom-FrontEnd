@@ -121,7 +121,7 @@ const soundTranslations = {
 
             flowerMain.innerHTML = `
             <img class="main-image" src="./images/${flower.img_url}.png" />
-                    <div class="content">
+                    <div class="main-content">
                         <div class="name"><h2>${flower.name}</h2></div>
                         <div class="meaning"><p><i>Meaning // </i> ${flower.meaning}<p></div>
                         <div class="sound"><p><i>Sound // </i> <font size="5"> ${soundTranslations[flower.sound]} </font> </p></div>
@@ -197,7 +197,9 @@ const soundTranslations = {
         bouquetLi = document.createElement("li")
         bouquetLi.className = "bouquet-list-item"
         
-        bouquetLi.innerText = `${name}`
+        bouquetLi.innerHTML = `
+            <div><font size="4"><u>${name}</u></font><br>
+            <i>${description}</i></div><br>`
         
         bouquetList.append(bouquetLi)
 
