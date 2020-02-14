@@ -70,10 +70,6 @@ const soundTranslations = {
 
     viewAllButton.addEventListener('click', e => {
         e.preventDefault();
-       
-        if (!document.getElementsByClassName("bouquet-list-item").length) {
-            renderAllBouquets(savedBouquets);
-        }
 
         document.getElementById('bouquetModal').style.display = "block";    
     })
@@ -103,17 +99,23 @@ const soundTranslations = {
         } else {
             sound = allSoundsById[flower.name];
         }
+       
+        if (!flower.rendered) {
+            const flowerSpan = document.createElement('span')
+            flowerSpan.className = "card"
+            flowerSpan.id = `${flower.name}-sidebar`
         
-        const flowerSpan = document.createElement('span')
-        flowerSpan.className = "card"
-        flowerSpan.dataset.id = flower.id
-    
-        flowerSpan.innerHTML = `
-            <img class="side-image" src="./images/${flower.img_url}.png" />
-            <div class="content">
-                <div class="name">${flower.name}</div>
-            </div> `
-        flowerList.append(flowerSpan)
+            
+            flowerSpan.innerHTML = `
+                <img class="side-image" src="./images/${flower.img_url}.png" />
+                <div class="content">
+                    <div class="name">${flower.name}</div>
+                </div> `
+            flowerList.append(flowerSpan)
+            flower["rendered"] = true;
+        }  
+
+        const flowerSpan = document.getElementById(`${flower.name}-sidebar`)
 
         flowerSpan.addEventListener("click", () => {
             let flowerMain = document.querySelector("#flower-main")
@@ -217,8 +219,7 @@ const soundTranslations = {
         bouquetLi.addEventListener("click", (e) => {
 
             const foundBouquet = savedBouquets.find(savedBouquet => savedBouquet.id === bouquet.id);
-            currentBouquet = foundBouquet;
-            loadSavedBouquet();
+            loadSavedBouquet(foundBouquet);
         }) 
     }
 
@@ -246,9 +247,7 @@ function createSound (flower) {
 
 function playSound (sound, id) {
     sound.dataset.action = "on"
-    console.log("i am sound", sound)
     sound.play();
- 
 }
 
 
@@ -304,7 +303,7 @@ function pushSavedBouquets(savedBouquetData) {
     })
 }
 
-function loadSavedBouquet () {
+function loadSavedBouquet (foundBouquet) {
     bouquetModal.style.display = "none";
     Object.values(allSoundsById).forEach((sound) => sound.pause())
 
@@ -313,10 +312,10 @@ function loadSavedBouquet () {
     while (selectedFlowers.firstChild) {
         selectedFlowers.removeChild(selectedFlowers.firstChild);
     }
-
-    const removed = [];
-
-    currentBouquet.flowers.forEach((flower) => {
+ 
+    currentBouquet = [...foundBouquet.flowers];
+    
+    foundBouquet.flowers.forEach((flower) => {
         const bouquetItem = document.createElement("div")
         const sound = allSoundsById[flower.name]
 
@@ -347,8 +346,9 @@ function loadSavedBouquet () {
         removeButton.onclick = () => {
             sound.pause();
             sound.currentTime = 0;
-            removed.push(flower);
+            currentBouquet.pop();
             selectedFlowers.removeChild(bouquetItem);
+            flower.rendered = true;
             renderOneFlower(flower);
         }
         
@@ -365,17 +365,13 @@ function loadSavedBouquet () {
             }       
         } 
     })
-    removed.forEach((removedFlower) => {
-        const removedIdx = currentBouquet.indexOf(removedFlower);
-        currentBouquet.splice(removedFlower, 1);
-    })
     renderVisualizer();
 }
 
 /*----------------VISUALIZER------------------*/
 
 function renderVisualizer () {
-    // Make canvas
+    // Get canvas
     const canvas = document.getElementById("vis");
     const canvasContext = canvas.getContext("2d");
 
@@ -384,8 +380,6 @@ function renderVisualizer () {
             audioContextById[id] = createAudioContext(allSoundsById[id])
         }
     })
-    
-
 
     const numBars = 130;
 
@@ -490,13 +484,14 @@ function init() {
     fetch("http://localhost:3000/flowers")
         .then(r => r.json())
         .then(data => {
-            renderAllFlowers(data)
+            renderAllFlowers(data);
         })
 
     fetch("http://localhost:3000/bouquets")
         .then(r => r.json())
         .then(data => {
-            pushSavedBouquets(data)
+            pushSavedBouquets(data);
+            renderAllBouquets(data);
         })
  }
 
