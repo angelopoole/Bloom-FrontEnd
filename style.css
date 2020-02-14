@@ -17,8 +17,10 @@ body {
 /* Main content  */
 
 #main {
+  display: flex;
   transition: 0.5s;
-  padding-top: 30px;
+  height: 100vh;
+  flex-direction: column;
 }
 
 .sidebar-open #main {
@@ -32,7 +34,6 @@ body {
 }
 
 #flower-main {
-  height: 75vh;
   text-align: left;
   display: flex;
   flex-flow: wrap;
@@ -43,6 +44,17 @@ body {
 
 .content {
   padding: 15px;
+}
+
+#visualizer {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+canvas {
+  height: 500px;
+  width: 500px;
 }
 
 
@@ -56,7 +68,6 @@ body {
     left: 0;
     overflow-x: hidden; /* Disable horizontal scroll */
     background-color: rgba(255, 255, 255, 0.664); /* Black*/
-    padding-top: 10px; /* Place content 20px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
     box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2), 0 10px 20px 0 rgba(0, 0, 0, 0.19)
     /* border-right: 1px solid #bbb; */  
@@ -105,7 +116,6 @@ body {
   /* Bottom bar with selected flower images and save bouquet/view all buttons */
 
   #bottom-bar {
-    position: absolute;
     bottom: 15px;
     left: 0;
     width: 100%;
