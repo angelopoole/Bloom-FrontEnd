@@ -287,7 +287,7 @@ function persistBouquet (name, description, flowerIdStr) {
         body: JSON.stringify(data)
     };
 
-    fetch("http://localhost:3000/bouquets", config)
+    fetch("https://peaceful-caverns-10688.herokuapp.com/bouquets", config)
         .then(r => r.json())
         .then(bouquetData => {
             savedBouquets.push(bouquetData);
